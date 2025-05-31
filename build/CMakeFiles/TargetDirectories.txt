@@ -1,0 +1,5 @@
+/home/zhichao.yang/CUDA_learning/universe_beat_cuda_lesson/build/CMakeFiles/edit_cache.dir
+/home/zhichao.yang/CUDA_learning/universe_beat_cuda_lesson/build/CMakeFiles/rebuild_cache.dir
+/home/zhichao.yang/CUDA_learning/universe_beat_cuda_lesson/build/2_cuda_gemm_study/CMakeFiles/my_sgemm_v0_global_memory.dir
+/home/zhichao.yang/CUDA_learning/universe_beat_cuda_lesson/build/2_cuda_gemm_study/CMakeFiles/edit_cache.dir
+/home/zhichao.yang/CUDA_learning/universe_beat_cuda_lesson/build/2_cuda_gemm_study/CMakeFiles/rebuild_cache.dir

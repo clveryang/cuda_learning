@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/zhichao.yang/CUDA_learning/universe_beat_cuda_lesson/build",
+  "command": "/usr/local/cuda/bin/nvcc -forward-unknown-to-host-compiler -isystem /usr/local/cuda/targets/x86_64-linux/include -g -std=c++17 \"--generate-code=arch=compute_52,code=[compute_52,sm_52]\" -G -x cu -c /home/zhichao.yang/CUDA_learning/universe_beat_cuda_lesson/2_cuda_gemm_study/my_sgemm_v0_global_memory.cu -o 2_cuda_gemm_study/CMakeFiles/my_sgemm_v0_global_memory.dir/my_sgemm_v0_global_memory.cu.o",
+  "file": "/home/zhichao.yang/CUDA_learning/universe_beat_cuda_lesson/2_cuda_gemm_study/my_sgemm_v0_global_memory.cu",
+  "output": "2_cuda_gemm_study/CMakeFiles/my_sgemm_v0_global_memory.dir/my_sgemm_v0_global_memory.cu.o"
+}
+]
