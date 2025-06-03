@@ -52,19 +52,34 @@ void cpu_sgemm(float *A_ptr, float *B_ptr, float *C_ptr, const int M, const int 
     }
 }
 
-
+template <int BLOCK_SIZE>
 __global__ void cuda_sgemm(float *A_ptr, float *B_ptr, float *C_ptr, const int M, const int N, const int K)
 {
     int x = threadIdx.x + blockIdx.x * blockDim.x;
     int y = threadIdx.y + blockIdx.y * blockDim.y;
 
+    __shared__ float a_shared[BLOCK_SIZE][BLOCK_SIZE];
+    __shared__ float b_shared[BLOCK_SIZE][BLOCK_SIZE];
+
+    float temp = 0.f;
+    int width = (N + BLOCK_SIZE - 1) / BLOCK_SIZE;
+
+
+    for (int i = 0; i < width; i++)
+    {
+        a_shared[threadIdx.x][threadIdx.y] = A_ptr[x * N + i * BLOCK_SIZE + threadIdx.y];
+        b_shared[threadIdx.x][threadIdx.y] = B_ptr[(threadIdx.x + i * BLOCK_SIZE) * N + y];
+        __syncthreads();
+
+        for (int k = 0; k < BLOCK_SIZE; k++)
+        {
+            temp += a_shared[threadIdx.x][k] * b_shared[k][threadIdx.y];
+        }
+        __syncthreads();
+    }
+
     if (x < M && y < N)
     {
-        float temp = 0.f;
-        for (int k = 0; k < K; k++)
-        {
-            temp += A_ptr[x * K + k] * B_ptr[k * N + y];
-        }
         C_ptr[x * N + y] = temp;
     }
 }
@@ -103,7 +118,7 @@ int main()
     dim3 block(BLOCK, BLOCK);
     dim3 grid((m + BLOCK - 1) / BLOCK, (n + BLOCK - 1) / BLOCK);
 
-    cuda_sgemm<<<grid, block>>>(matrix_A_device, matrix_B_device, matrix_C_device, m, n, k);
+    cuda_sgemm<BLOCK><<<grid, block>>>(matrix_A_device, matrix_B_device, matrix_C_device, m, n, k);
 
     cudaMemcpy(matrix_C_host_gpu_calc, matrix_C_device, mem_size_C, cudaMemcpyDeviceToHost);
 
